@@ -1,11 +1,11 @@
 from datetime import date
-from service.task_service import TaskService
+from task_manager.service.task_service import TaskService
 
 
 class ConsoleMenu:
 
-    def __init__(self):
-        self.service = TaskService()
+    def __init__(self, service: TaskService):
+        self.service = service
 
     def show(self):
         while True:

@@ -20,7 +20,7 @@ Each task contains:
 - **Status**: `OPEN` or `CLOSED`
 - **Due date**
 
-All tasks are persisted in a **JSON file**, ensuring data is preserved between executions.
+All tasks are persisted in a **SQLite database**, ensuring data is preserved between executions.
 
 This project focuses on:
 - Code readability
@@ -34,25 +34,33 @@ This project focuses on:
 
 The application follows a **layered architecture**, inspired by common Python conventions.
 
+```
 task_manager/
 │
-├── main.py # Application entry point
+├── src/
+│   └── task_manager/
+│       ├── main.py # Application entry point
+│       │
+│       ├── domain/ # Business domain
+│       │ └── task.py
+│       │
+│       ├── service/ # Business logic / use cases
+│       │ └── task_service.py
+│       │
+│       ├── repository/ # Persistence layer
+│       │ └── task_repository.py
+│       │
+│       ├── ui/ # Console user interface
+│       │ └── console_menu.py
+│       │
+│       └── rest_api/ # REST API
+│           └── rest_api.py
 │
-├── domain/ # Business domain
-│ └── task.py
-│
-├── service/ # Business logic / use cases
-│ └── task_service.py
-│
-├── repository/ # Persistence layer
-│ └── task_repository.py
-│
-├── ui/ # Console user interface
-│ └── console_menu.py
+├── tests/ # Unit tests
 │
 └── data/
-└── tasks.json # JSON storage file
-
+    └── tasks.db # SQLite storage file
+```
 
 ### 📦 Domain Layer
 Defines the `Task` entity and its behavior, independent of storage or user interface.
@@ -61,7 +69,7 @@ Defines the `Task` entity and its behavior, independent of storage or user inter
 Contains application use cases such as creating, editing, completing, and deleting tasks.
 
 ### 💾 Repository Layer
-Handles persistence, converting tasks to and from JSON format.
+Handles persistence, converting tasks to and from SQLite format.
 
 ### 🖥️ UI Layer
 Manages user interaction via terminal menus and input.
@@ -71,14 +79,14 @@ Manages user interaction via terminal menus and input.
 ## 🧭 Features
 
 The console menu provides the following options:
-
+```
 0 - Exit
 1 - List tasks
 2 - Edit task
 3 - Delete task
 4 - Add new task
 5 - Complete task
-
+```
 
 ---
 
@@ -93,48 +101,41 @@ git clone <repository-url>
 cd task_manager
 ```
 
-### 3️⃣ Run the application
+### 3️⃣ Install dependencies
 ```bash
-python main.py
+pip install -r requirements.txt
 ```
 
-💾 Data Persistence
+### 4️⃣ Run the application
 
-Tasks are stored in the following file: data/tasks.json
+**Console Mode:**
+```bash
+python src/task_manager/main.py CONSOLE
+```
+
+**REST API Mode:**
+```bash
+python src/task_manager/main.py REST_API
+```
+
+## 💾 Data Persistence
+
+Tasks are stored in the following file: data/tasks.db
 
 The file is automatically created on the first run if it does not exist.
 
-🧼 Clean Code Principles
+## 🧼 Clean Code Principles
 
 This project applies several Clean Code and design principles:
 
-Single Responsibility Principle (SRP)
+- Single Responsibility Principle (SRP)
+- Clear and meaningful naming
+- Low coupling between layers
+- High cohesion
+- Domain isolated from infrastructure
+- Simple and readable code
 
-Clear and meaningful naming
-
-Low coupling between layers
-
-High cohesion
-
-Domain isolated from infrastructure
-
-Simple and readable code
-
-🚀 Future Improvements
-
-Possible enhancements include:
-
-Unit tests
-
-Replace JSON with SQLite
-
-REST API using FastAPI
-
-Hexagonal (Ports & Adapters) architecture
-
-Web or GUI interface
-
-📚 References
+## 📚 References
 
 Clean Code – Robert C. Martin
 
