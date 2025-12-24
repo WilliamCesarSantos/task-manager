@@ -5,7 +5,7 @@ from typing import Optional, List
 from task_manager.domain.task import Task
 from task_manager.repository.task_repository_interface import TaskRepositoryInterface
 
-DEFAULT_DB_FILE = Path("../data/tasks.db")
+DEFAULT_DB_FILE = Path("../../data/tasks.db")
 
 
 class SQLiteTaskRepository(TaskRepositoryInterface):
